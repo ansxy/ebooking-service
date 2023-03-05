@@ -1,35 +1,24 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["multischema"]
+  previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  schemas  = ["user", "flights", "hotels", "balance"]
+  schemas  = ["balance", "flights", "hotels", "user"]
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id
   name      String
   email     String   @unique
   password  String
   createAt  DateTime @default(now())
   updateAt  DateTime @updatedAt
   role      Role
-  balanceId Int      @unique
-  balance   Balance  @relation(fields: [balanceId], references: [id])
-
-  @@schema("user")
-}
-
-enum Role {
-  ADMIN
-  PENGGUNA
-  MITRA
+  balanceId Int?     @unique
+  balance   Balance? @relation(fields: [balanceId], references: [id], onDelete: Cascade)
 
   @@schema("user")
 }
@@ -50,8 +39,9 @@ model Flight {
   arrival_time   DateTime
   price          Decimal
   flight_type    String
-  airport        Airpots  @relation(fields: [airportId], references: [id])
   airportId      Int
+  delayed_time   Int?
+  airport        Airpots  @relation(fields: [airportId], references: [id])
 
   @@schema("flights")
 }
@@ -67,19 +57,27 @@ model Hotel {
 
 model Room {
   id              Int    @id @default(autoincrement())
-  hotel           Hotel  @relation(fields: [hotelId], references: [id])
   room_number     Int
   price_per_night Int
   room_type       String
   hotelId         Int
+  hotel           Hotel  @relation(fields: [hotelId], references: [id])
 
   @@schema("hotels")
 }
 
 model Balance {
   id     Int     @id @default(autoincrement())
-  user   User?
   amount Decimal
+  user   User?
 
   @@schema("balance")
+}
+
+enum Role {
+  ADMIN
+  PENGGUNA
+  MITRA
+
+  @@schema("user")
 }
