@@ -1,9 +1,8 @@
 const prisma = require('../database/prisma.database')
-
 const getAllRoom = async (req, res) => {
     try {
-        const flights = await prisma.flight.findMany()
-        return res.status(200).json({ data: flights })
+        const hotels = await prisma.hotel.findMany()
+        return res.status(200).json({ data: hotels })
     } catch (error) {
         return res.status(500).jsom({ error: error })
     }
@@ -27,4 +26,4 @@ const createRoom = async (req, res) => {
     }
 }
 
-module.exports = {getAllRoom, createRoom}
+module.exports = { getAllRoom, createRoom }
