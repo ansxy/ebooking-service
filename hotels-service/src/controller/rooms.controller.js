@@ -9,14 +9,13 @@ const getAllRoom = async (req, res) => {
 }
 
 const createRoom = async (req, res) => {
-    const { room_number, price_per_night, zoom_type, hotelId } = req.body
-
+    const { room_number, price_per_night, room_type, hotelId } = req.body
     try {
         const room = await prisma.room.create({
             data: {
                 room_number,
                 price_per_night,
-                zoom_type,
+                room_type,
                 hotelId
             }
         })
