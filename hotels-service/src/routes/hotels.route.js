@@ -1,9 +1,8 @@
 const router = require('express').Router()
 
-const { createHotel } = require('../controller/hotels.controller')
-const { getAllRoom, createRoom } = require('../controller/rooms.controller')
-router.get('/', getAllRoom)
+const { createHotel, getHotelById } = require('../controller/hotels.controller')
+
 router.post('/create', createHotel)
-router.post('/room/create', createRoom)
+router.get('/hotel/:hotelId', getHotelById) 
 
 module.exports = router

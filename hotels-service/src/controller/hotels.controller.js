@@ -17,4 +17,24 @@ const createHotel = async (req, res) => {
     // return res.status(401).json({ status: "not authorized "}) //dibutuhin kalo udah ada token sama if
 }
 
-module.exports = { createHotel }
+const getHotelById = async (req, res) => {
+    const { hotelId } = req.params
+    try {
+        const hotel = await prisma.hotel.findUnique({
+            where: {
+                id: parseInt(id)
+            },
+            include: {
+                rooms: true
+            }
+        })
+        if (!hotel) {
+            return res.status(404).json({ error: "Hotel not found" })
+        }
+        return res.status(200).json({ data: hotel })
+    } catch (error) {
+        return res.status(500).json({ error: error })
+    }
+}
+
+module.exports = { createHotel, getHotelById }
