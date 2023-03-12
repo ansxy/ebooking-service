@@ -41,6 +41,7 @@ model Flight {
   flight_type    String
   airportId      Int
   delayed_time   Int?
+  from           String
   airport        Airpots  @relation(fields: [airportId], references: [id])
 
   @@schema("flights")
