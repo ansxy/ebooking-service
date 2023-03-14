@@ -21,4 +21,25 @@ const createAirport = async (req, res) => {
     return res.status(401).json({ status: "not authorized" })
 }
 
+const getairportById = async (req, res) => {
+    const {airportId} = req.params
+    try{
+        const flight = await prisma.airport.findUnique({
+            where: {
+                id: parseInt(airportId)
+            },
+            include: {
+                   flight: true 
+            } 
+    })
+    if (!airport) {
+        return res.status(404).json({ error: "airport not found" })
+    }
+    return res.status(200).json({ data: airport })
+    } catch (error) {
+        return res.status(500).json({ error: error })
+    }
+}
+
+
 module.exports = { createAirport }
