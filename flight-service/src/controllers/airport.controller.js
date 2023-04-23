@@ -2,15 +2,28 @@ const prisma = require('../database/prisma.database')
 const verifyToken = require('../lib/verifyJWT')
 
 const createAirport = async (req, res) => {
-    const { name, description } = req.body
+    const { name, description,user } = req.body
     const token = await verifyToken(req)
     if (token.user.role === 'ADMIN') {
         try {
-            const airport = await prisma.airpots.create({
-                data: {
-                    name: name,
-                    description: description,
+            const airport = await prisma.user.update({
+                where : {
+                    id : user
+                },
+                data : {
+                    Airpots: {
+                        create : {
+                        name: name,
+                        description: description,
+                        }
+                    }    
                 }
+                
+                // data: {
+                    // name: name,
+                    // description: description,
+                    // User :  user
+                // }
             })
             return res.status(200).json({ "status": "success", data: airport })
         } catch (error) {
