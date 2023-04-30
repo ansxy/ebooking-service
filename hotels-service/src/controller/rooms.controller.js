@@ -46,4 +46,22 @@ const getRoomById = async (req, res) => {
     }
 }
 
+//TODO : Edit Room 
+const editRoomById = async(req,res) => {
+
+}
+
+//TODO : Delete Room 
+const deleteRoomById = async(req,res) => {
+
+}
+
+//TODO : Reservasi Room 
+const resevRoom = async (req,res) => {
+
+}
+
+
+
+
 module.exports = { getAllRoom, createRoom, getRoomById }

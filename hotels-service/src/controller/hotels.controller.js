@@ -37,4 +37,9 @@ const getHotelById = async (req, res) => {
     }
 }
 
+//TODO : Edit Hotel
+const editHotelById = async(req,res) => {
+
+}
+
 module.exports = { createHotel, getHotelById }
