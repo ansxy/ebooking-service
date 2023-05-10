@@ -30,7 +30,7 @@ const getRoomById = async (req, res) => {
     try {
         const room = await prisma.room.findUnique({
             where: {
-                id: parseInt(id)
+                id: parseInt(roomId)
             },
             include: {
                 hotel: true
@@ -46,14 +46,38 @@ const getRoomById = async (req, res) => {
     }
 }
 
-//TODO : Edit Room 
+//TEST : Edit Room 
 const editRoomById = async(req,res) => {
-
+    const {roomId} = req.params
+    const {price_per_night} = req.body
+    try {
+        const updatedRoom = await prisma.room.upsert({
+            where : {
+                id : roomId
+            },
+            update : {
+                price_per_night : price_per_night
+            }
+        })
+        return res.status(200).json({status : "success",data : updatedRoom})
+    } catch (error) {
+        return res.status(500).json({status : "fail", message: error})
+    }
 }
 
-//TODO : Delete Room 
+//TEST : Delete Room 
 const deleteRoomById = async(req,res) => {
-
+    const {roomId} = req.params
+    try {
+        await prisma.room.delete({
+            where : {
+                id : roomId
+            }
+        })
+        return res.status(200).json({status : "success" , message : "deleted"})
+    } catch (error) {
+        return res.status(500).json({status : 'fail' , message : error})
+    }
 }
 
 //TODO : Reservasi Room 
@@ -64,4 +88,4 @@ const resevRoom = async (req,res) => {
 
 
 
-module.exports = { getAllRoom, createRoom, getRoomById }
+module.exports = { getAllRoom, createRoom, getRoomById ,editRoomById,deleteRoomById}

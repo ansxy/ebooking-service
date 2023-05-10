@@ -37,9 +37,24 @@ const getHotelById = async (req, res) => {
     }
 }
 
-//TODO : Edit Hotel
+//TEST : Edit Hotel
 const editHotelById = async(req,res) => {
-
+    const {hotelId} = req.params
+    const {name,description} = req.body
+    try {
+        const updateHotel = await prisma.room.upsert({
+            where : {
+                id : hotelId
+            },
+            update : {
+                name : name,
+                description : description
+            }
+        })
+        return res.status(200).json({status : "success",data : updateHotel})
+    } catch (error) {
+        return res.status(500).json({status : "fail", message: error})
+    }
 }
 
-module.exports = { createHotel, getHotelById }
+module.exports = { createHotel, getHotelById,editHotelById }
