@@ -1,4 +1,4 @@
-const router = require('express').Router()
+const RoomRouter = require('express').Router()
 
 const { getAllRoom, createRoom, getRoomById, deleteRoomById, editRoomById } = require('../controller/rooms.controller')
 const verifyToken = require('../lib/verifyToken')
@@ -7,8 +7,10 @@ const verifyToken = require('../lib/verifyToken')
 //CONTOH :  router.post('/create',verifyToken, createHotel)
  
 
-router.delete('/room/:roomId',verifyToken,deleteRoomById)
-router.put('/room/:roomId',verifyToken,editRoomById)
-router.get('/', getAllRoom)
-router.post('/room/create', createRoom)
-router.get('/room/:roomId', getRoomById)
+RoomRouter.delete('/:roomId',verifyToken,deleteRoomById)
+RoomRouter.put('/:roomId',verifyToken,editRoomById)
+RoomRouter.get('/', getAllRoom)
+RoomRouter.post('/create', createRoom)
+RoomRouter.get('/:roomId', getRoomById)
+
+module.exports = {RoomRouter}

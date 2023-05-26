@@ -1,20 +1,22 @@
 const prisma = require('../database/prisma.database')
 
 const createHotel = async (req, res) => {
-    const { name, description } = req.body;
+    const { name, description,address,city,phone } = req.body;
     try {
         const hotel = await prisma.hotel.create({
             data: {
                 name: name,
                 description: description,
+                address : address,
+                city : city,
+                phone : phone
             }
         });
         return res.status(200).json({ "status": "success", data: hotel })
     } catch (error) {
-        console.log(error);
+        console.log(error)
         return res.status(500).json({ error: error });
     }
-    // return res.status(401).json({ status: "not authorized "}) //dibutuhin kalo udah ada token sama if
 }
 
 const getHotelById = async (req, res) => {
@@ -22,7 +24,7 @@ const getHotelById = async (req, res) => {
     try {
         const hotel = await prisma.hotel.findUnique({
             where: {
-                id: parseInt(id)
+                id: parseInt(hotelId)
             },
             include: {
                 rooms: true
@@ -40,15 +42,18 @@ const getHotelById = async (req, res) => {
 //TEST : Edit Hotel
 const editHotelById = async(req,res) => {
     const {hotelId} = req.params
-    const {name,description} = req.body
+    const { name, description,address,city,phone } = req.body;
     try {
         const updateHotel = await prisma.room.upsert({
             where : {
                 id : hotelId
             },
-            update : {
-                name : name,
-                description : description
+            data: {
+                name: name,
+                description: description,
+                address : address,
+                city : city,
+                phone : phone
             }
         })
         return res.status(200).json({status : "success",data : updateHotel})

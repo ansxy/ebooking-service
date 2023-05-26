@@ -21,6 +21,7 @@ const createRoom = async (req, res) => {
         })
         return res.status(200).json({ status: "success", room: room })
     } catch (error) {
+        console.log(error)
         return res.status(500).json({ status: error })
     }
 }
@@ -30,7 +31,7 @@ const getRoomById = async (req, res) => {
     try {
         const room = await prisma.room.findUnique({
             where: {
-                id: parseInt(roomId)
+                id: roomId
             },
             include: {
                 hotel: true
