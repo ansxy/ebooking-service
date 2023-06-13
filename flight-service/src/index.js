@@ -12,7 +12,7 @@ app.use(bodyParser.json())
 app.use('/flights', router)
 
 app.listen(3001, () =>
-    console.log('Example app listening on port 3000!'),
+    console.log('Example app listening on port 3001!'),
 );
 
 module.exports = app;
